@@ -33,4 +33,20 @@ The purpose is to provide technicians, distributors, and customers with quick ac
 ---
 
 ## 📂 Project Structure
+v-tac-manual/
+├── index.html # Main landing page
+├── assets/ # CSS, images, icons, logos
+├── docs/ # Product manuals, PDFs, etc.
+├── js/ # JavaScript for interactivity
+└── README.md # This file
 
+📄 License
+This project is for internal and commercial use by V-TAC.
+© Munavvar Kavanur – All rights reserved.
+
+
+🤝 Contact
+For development support or collaboration:
+
+Developer: Munavvar Kavanur
+📧 Email: connect@munavvar.me
