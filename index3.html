@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ================================================================= -->
+    <!--                       DOCUMENT METADATA                           -->
+    <!-- ================================================================= -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK Energy Label Generator</title>
+    <link rel="icon" href="https://www.vtacexports.com/media/favicon/websites/1/Favicon_V-TAC_B2B_1.png" type="image/x-icon">
+    
+    <!-- ================================================================= -->
+    <!--                            STYLESHEET                             -->
+    <!-- ================================================================= -->
+    <style>
+        /* ----------------------------------------------------------------- */
+        /*                      CUSTOM FONT DEFINITIONS                      */
+        /* ----------------------------------------------------------------- */
+        @font-face {
+            font-family: 'Poppins';
+            src: url('./fonts/Poppins-Regular.ttf') format('truetype');
+            font-weight: 400; /* Normal weight */
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Poppins';
+            src: url('./fonts/Poppins-Medium.ttf') format('truetype');
+            font-weight: 500; /* Medium weight */
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Poppins';
+            src: url('./fonts/Poppins-Bold.ttf') format('truetype');
+            font-weight: 700; /* Bold weight */
+            font-style: normal;
+        }
+
+        /* ----------------------------------------------------------------- */
+        /*                       MAIN PAGE LAYOUT                            */
+        /* ----------------------------------------------------------------- */
+        body {
+            font-family: sans-serif; 
+            display: flex;
+            margin: 0;
+            height: 100vh;
+        }
+
+        /* ----------------------------------------------------------------- */
+        /*                     LABEL PREVIEW SECTION                         */
+        /* ----------------------------------------------------------------- */
+        .preview-container {
+            width: 50%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #00CE7C;
+        }
+
+        #labelPreview {
+            background: url('Label_BG.png') no-repeat;
+            width: 426px;
+            height: 851px;
+            position: relative;
+            background-size: contain;
+            border: 1px solid #ccc;
+        }
+
+        /* ----------------------------------------------------------------- */
+        /*            FIXED ELEMENT POSITIONS ON THE ENERGY LABEL            */
+        /* ----------------------------------------------------------------- */
+        #skuNumber {
+            position: absolute; top: 150px; left: 20px; color: black;
+            font-size: 38px; font-weight: normal; font-family: verdana;
+        }
+        #ratingMark {
+            position: absolute; left: 303px; top: 300px;
+            width: 100px; height: 65px;
+        }
+        #watts {
+            position: absolute; bottom: 70px; left: 18px; font-size: 64px;
+            color: black; font-weight: bold; font-family: verdana;
+        }
+        #qrCode {
+            position: absolute; bottom: 12px; left: 240px;
+            width: 145px; height: 145px;
+        }
+
+        /* ----------------------------------------------------------------- */
+        /*                       INPUT FORM STYLING                          */
+        /* ----------------------------------------------------------------- */
+        .form-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 3rem;
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 2px 25px rgba(0, 0, 0, 0.25);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            height: fit-content;
+        }
+        .form-container h2 {
+            margin-bottom: 1rem; font-size: 1.5rem; color: #333;
+            text-align: center; font-weight: 700;
+        }
+        .form-container label { font-weight: 500; color: #555; }
+        .form-container input,
+        .form-container select {
+            padding: 0.75rem 1rem; border: 1px solid #ccc; border-radius: 0.5rem;
+            font-size: 1rem; font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-container input:focus,
+        .form-container select:focus {
+            border-color: #007bff; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+            outline: none;
+        }
+
+        /* ----------------------------------------------------------------- */
+        /*                      DOWNLOAD BUTTONS STYLING                       */
+        /* ----------------------------------------------------------------- */
+        .download-buttons {
+            display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;
+        }
+        .download-buttons button {
+            font-family: 'Poppins', sans-serif; background-color: #3498db;
+            color: white; border: none; padding: 0.6rem 1.2rem;
+            border-radius: 6px; font-size: 1rem; font-weight: 500;
+            cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2);
+        }
+        .download-buttons button:hover { background-color: #2980b9; }
+        .download-buttons button:active { transform: scale(0.97); }
+
+        /* ----------------------------------------------------------------- */
+        /*                       RESPONSIVE STYLES                           */
+        /* ----------------------------------------------------------------- */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column; height: auto;
+            }
+            .form-container,
+            .preview-container {
+                width: 100%; max-width: 100%; margin: 0; padding: 1.5rem;
+                box-sizing: border-box; /* Ensures padding is included in width */
+            }
+            #labelPreview {
+                transform: scale(0.9); transform-origin: top center;
+            }
+        }
+        @media (max-width: 600px) {
+            #labelPreview { transform: scale(0.75); }
+        }
+        @media (max-width: 450px) {
+            #labelPreview { transform: scale(0.65); }
+            .form-container { padding: 1.5rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ================================================================= -->
+    <!--                       HTML (UNCHANGED)                            -->
+    <!-- ================================================================= -->
+    <div class="form-container">
+        <img src="logo.svg" alt="VTAC Logo" style="display: block; margin: 0 auto; width: 280px; height: auto;" class="form-logo">
+        <h2>UK ENERGY LABEL</h2>
+        <label for="sku">SKU</label>
+        <input type="text" id="sku" value="Enter product SKU">
+        <label for="rating">Energy Rating</label>
+        <select id="rating">
+            <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F" selected>F</option><option value="G">G</option>
+        </select>
+        <label for="wattsInput">Watts</label>
+        <input type="number" id="wattsInput" value="15" min="0">
+        <label for="qrLink">QR Code Link</label>
+        <input type="text" id="qrLink" value="Link for QR Code">
+        <div class="download-buttons">
+            <button onclick="downloadPNG()">Download PNG</button>
+            <button onclick="downloadPDF()">Download PDF</button>
+        </div>
+    </div>
+    <div class="preview-container">
+        <div id="labelPreview">
+            <div id="skuNumber"></div>
+            <div id="ratingMark">
+                <svg viewBox="0 0 100 65" preserveAspectRatio="none">
+                    <path d="M25,0 L100,0 L100,65 L25,65 L0,32.5 Z" fill="black"></path>
+                    <text id="ratingMarkText" x="62.5" y="36.5" fill="white" font-family="Arial" font-size="48" font-weight="bold" text-anchor="middle" dominant-baseline="middle">F</text>
+                </svg>
+            </div>
+            <div id="watts"></div>
+            <img id="qrCode" src="" alt="QR Code">
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!--                      JAVASCRIPT LOGIC                             -->
+    <!-- ================================================================= -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        // === DYNAMIC LABEL UPDATE FUNCTION (UNCHANGED) ===
+        function updateLabel() {
+            const sku = document.getElementById('sku').value;
+            const rating = document.getElementById('rating').value;
+            const watts = document.getElementById('wattsInput').value;
+            const qrLink = document.getElementById('qrLink').value;
+            document.getElementById('skuNumber').textContent = sku;
+            document.getElementById('watts').textContent = watts;
+            document.getElementById('ratingMarkText').textContent = rating;
+            const ratingPositions = { 'A': 220, 'B': 285, 'C': 350, 'D': 415, 'E': 480, 'F': 545, 'G': 610 };
+            document.getElementById('ratingMark').style.top = `${ratingPositions[rating]}px`;
+            const qrCodeImg = document.getElementById('qrCode');
+            if (qrLink) {
+                QRCode.toDataURL(qrLink, { width: 145, margin: 1, errorCorrectionLevel: 'H' })
+                .then(url => { qrCodeImg.src = url; })
+                .catch(err => { console.error('QR Code generation failed:', err); qrCodeImg.src = ''; });
+            } else { qrCodeImg.src = ''; }
+        }
+
+        // --- UPDATED DOWNLOAD FUNCTIONS USING THE "INVISIBLE CLONE" TECHNIQUE ---
+
+        // === DOWNLOAD AS PNG ===
+        function downloadPNG() {
+            const originalLabel = document.getElementById('labelPreview');
+            // 1. Create a clone of the on-screen label
+            const clone = originalLabel.cloneNode(true);
+            
+            // 2. IMPORTANT: Reset any scaling on the clone to ensure full resolution
+            clone.style.transform = 'none';
+
+            // 3. Style the clone to be invisible and place it off-screen
+            clone.style.position = 'absolute';
+            clone.style.left = '-9999px';
+            clone.style.top = '0';
+            document.body.appendChild(clone);
+
+            // 4. Capture the invisible, full-sized clone
+            setTimeout(() => { // Timeout ensures fonts are rendered correctly before capture
+                html2canvas(clone, { useCORS: true }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `UK Label_${document.getElementById('sku').value}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    
+                    // 5. Clean up by removing the clone from the page
+                    document.body.removeChild(clone);
+                });
+            }, 50);
+        }
+
+        // === DOWNLOAD AS PDF ===
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const originalLabel = document.getElementById('labelPreview');
+            // 1. Create a clone
+            const clone = originalLabel.cloneNode(true);
+            
+            // 2. Reset scaling on the clone
+            clone.style.transform = 'none';
+
+            // 3. Style and position the clone off-screen
+            clone.style.position = 'absolute';
+            clone.style.left = '-9999px';
+            clone.style.top = '0';
+            document.body.appendChild(clone);
+            
+            // 4. Capture the full-sized clone
+            setTimeout(() => {
+                html2canvas(clone, { useCORS: true }).then(canvas => {
+                    const doc = new jsPDF({ orientation: 'portrait', unit: 'px', format: [426, 851] });
+                    const imgData = canvas.toDataURL('image/png');
+                    doc.addImage(imgData, 'PNG', 0, 0, 426, 851);
+                    doc.save(`UK Label_${document.getElementById('sku').value}.pdf`);
+
+                    // 5. Clean up by removing the clone
+                    document.body.removeChild(clone);
+                });
+            }, 50);
+        }
+
+        // --- EVENT LISTENERS (UNCHANGED) ---
+        document.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('input', updateLabel);
+        });
+        window.onload = updateLabel;
+    </script>
+</body>
+</html>
